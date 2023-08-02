@@ -1,0 +1,34 @@
+#
+# LobbyBridge v1.0.0
+# by @Gurwi30 (github.com/Gurwi30)
+#
+
+RED_SANDSTONE: # BLOCK MATERIAL
+  item:
+    display-name: "&cRED SANDSTONE"
+    lore: "&fDefault Block"
+
+  break-delay: 3 # IN SECONDS
+  permission: "lobby.red_sandstone" # REMOVE THIS IF YOU DON'T WANT ANY PERMISSION
+
+SANDSTONE:
+  item:
+    display-name: "&6SANDSTONE"
+    lore: "&bPermission: &flobby.sandstone"
+
+  break-delay: 3
+  permission: "lobby.sandstone"
+
+OBSIDIAN:
+  item:
+    display-name: '&8OBSIDIAN'
+    lore: '&bPermission: &flobby.obsidian'
+  break-delay: 3
+  permission: lobby.obsidian
+
+WOOL:
+  item:
+    display-name: '&fWOOL'
+    lore: '&bPermission: &flobby.wool'
+  break-delay: 3
+  permission: lobby.wool

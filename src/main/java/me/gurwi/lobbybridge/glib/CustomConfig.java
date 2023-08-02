@@ -1,4 +1,4 @@
-package me.gurwi.glib.configuration;
+package me.gurwi.lobbybridge.glib;
 
 import lombok.Getter;
 import lombok.SneakyThrows;

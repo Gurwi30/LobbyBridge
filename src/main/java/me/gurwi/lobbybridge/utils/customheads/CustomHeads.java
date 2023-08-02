@@ -1,4 +1,4 @@
-package me.gurwi.fadedmask.utils.customheads;
+package me.gurwi.lobbybridge.utils.customheads;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

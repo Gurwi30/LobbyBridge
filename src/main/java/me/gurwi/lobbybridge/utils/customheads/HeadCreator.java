@@ -1,4 +1,4 @@
-package me.gurwi.fadedmask.utils.customheads;
+package me.gurwi.lobbybridge.utils.customheads;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;

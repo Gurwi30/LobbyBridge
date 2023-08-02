@@ -1,3 +1,9 @@
 name: LobbyBridge
 version: '${project.version}'
 main: me.gurwi.lobbybridge.LobbyBridge
+
+commands:
+  lobbybridge:
+    description: Main Command
+    aliases:
+      - lbridge

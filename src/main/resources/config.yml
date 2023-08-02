@@ -1,0 +1,17 @@
+#
+# LobbyBridge v1.0.0
+# by @Gurwi30 (github.com/Gurwi30)
+#
+
+
+DataBase:
+  MySql:
+    storageHost: 'localhost'
+    storagePort: 3306
+    storageDatabase: 'lobbybridge_data'
+    storageUser: 'root'
+    storagePassword: ''
+    useSSL: true
+
+default-block: RED_SANDSTONE # The block has to be added first in the blocks.yml
+slot: 2 # Slot where the block will be givven on join (Use -1 to disable this)

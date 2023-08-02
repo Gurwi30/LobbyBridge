@@ -1,17 +1,24 @@
 package me.gurwi.lobbybridge;
 
+import lombok.Getter;
+import me.gurwi.lobbybridge.utils.PluginCustomLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LobbyBridge extends JavaPlugin {
 
+    @Getter
+    private static LobbyBridge instance;
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        instance = this;
+        PluginCustomLoader.getInstance().loadPlugin();
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        PluginCustomLoader.getInstance().disablePlugin();
+
     }
 }

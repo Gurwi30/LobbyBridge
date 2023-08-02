@@ -1,7 +1,10 @@
 package me.gurwi.lobbybridge.config.managers;
 
 import com.cryptomorin.xseries.XMaterial;
+import de.tr7zw.changeme.nbtapi.NBTItem;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.gurwi.lobbybridge.enums.NBTTag;
 import me.gurwi.lobbybridge.glib.ResourceConfig;
 import me.gurwi.lobbybridge.objects.LobbyBlock;
 import me.gurwi.lobbybridge.utils.ChatColorUtils;
@@ -13,19 +16,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class BlocksConfigReader {
+public class LobbyBlocksManager {
 
     private final ResourceConfig resourceConfig;
-    private final Map<String, LobbyBlock> blockMap = new HashMap<>();
+
+    @Getter
+    private final Map<String, LobbyBlock> blocksMap = new HashMap<>();
 
     public void load() {
 
         Configuration config = resourceConfig.getCustomConfig();
 
-        blockMap.clear();
+        blocksMap.clear();
         config.getRoot().getKeys(false).forEach(materialName -> {
 
             Optional<XMaterial> material = XMaterial.matchXMaterial(materialName.toUpperCase());
@@ -35,36 +41,53 @@ public class BlocksConfigReader {
                 return;
             }
 
-            if (!material.get().parseMaterial().isBlock()) {
+            if (!Objects.requireNonNull(material.get().parseMaterial()).isBlock()) {
                 CustomLogger.log(LoggerTag.CONFIG_ERROR_TAG, "Invalid material found in " + resourceConfig.getCustomConfigFile().getName() + "! §4" + materialName + " §chas to be a block.");
                 return;
             }
 
             ItemStack itemStack = material.get().parseItem();
+            assert itemStack != null;
+
+            itemStack.setAmount(64);
 
             if (config.isSet(materialName + ".item.")) {
-                assert itemStack != null;
                 ItemMeta meta = itemStack.getItemMeta();
 
-                if (isItemValuePresent(materialName, "display-name")) {
+                if (isValuePresent(materialName, "item.display-name")) {
                     meta.setDisplayName(ChatColorUtils.getFormattedString(resourceConfig.getCustomConfig().getString(materialName + ".item." + "display-name")));
                 }
 
-                if (isItemValuePresent(materialName, "lore")) {
+                if (isValuePresent(materialName, "item.lore")) {
                     meta.setLore(ChatColorUtils.getFormattedStringList(config.getStringList(materialName + ".item.lore")));
                 }
 
                 itemStack.setItemMeta(meta);
             }
 
-            
+            int breakDelay = 3;
+            String permission = "";
 
+            if (isValuePresent(materialName, "break-delay")) {
+                breakDelay = config.getInt(materialName + ".break-delay");
+            }
+
+            if (isValuePresent(materialName, "permission")) {
+                permission = config.getString(materialName + ".permission");
+            }
+
+            NBTItem nbti = new NBTItem(itemStack, true);
+            nbti.setString(NBTTag.BLOCK_TAG.getTag(), materialName.toUpperCase());
+
+            blocksMap.put(material.get().name(), new LobbyBlock(nbti.getItem(), breakDelay, permission));
+
+            CustomLogger.log(LoggerTag.INFO_TAG, "Loaded block §f-> §6" + materialName);
         });
 
     }
 
-    private boolean isItemValuePresent(String key, String value) {
-        return resourceConfig.getCustomConfig().isSet((key + ".item." + value));
+    private boolean isValuePresent(String key, String value) {
+        return resourceConfig.getCustomConfig().isSet((key + "." + value));
     }
 
 }
