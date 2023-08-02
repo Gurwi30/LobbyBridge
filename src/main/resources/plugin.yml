@@ -1,0 +1,3 @@
+name: LobbyBridge
+version: '${project.version}'
+main: me.gurwi.lobbybridge.LobbyBridge
